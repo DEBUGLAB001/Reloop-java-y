@@ -161,7 +161,7 @@ public class ScenarioDataService {
                 "COMPONENT_HARVESTING", List.of("CMP-107"), 100.0, UrgencyLevel.LOW,
                 60.0, 30, 15, TechnicianSkill.COMPONENT_HARVESTING, WorkflowState.SCHEDULED,
                 "STN-02", "TECH-03", LocalDateTime.of(today, LocalTime.of(14, 0)), LocalDateTime.of(today, LocalTime.of(14, 30)),
-                LocalDateTime.of(today, LocalTime.of(11, 0)), null, "Reserved allocation test job."));
+                LocalDateTime.of(today, LocalTime.of(11, 0)), null, "Modular memory recovery for refurbishing."));
 
         // 5. Processing Stations
         stationRepository.save(new ProcessingStation("STN-01", "Precision Teardown Bay Alpha",

@@ -111,7 +111,6 @@ public class ReLoopTestSuite {
         RecoveryJob job = jobRepository.findById("JOB-104")
                 .orElseThrow(() -> new AssertionError("Job JOB-104 not found"));
 
-        // STN-01 has max 100, allocated 75 (25 available). JOB-104 requires 35 units.
         boolean canAccommodate = batchAllocationService.canStationAccommodate(station, job);
         if (canAccommodate) {
             throw new AssertionError(String.format(
@@ -138,7 +137,6 @@ public class ReLoopTestSuite {
         LocalDateTime candidateStart = LocalDateTime.of(today, LocalTime.of(10, 0));
         LocalDateTime candidateEnd = LocalDateTime.of(today, LocalTime.of(12, 0));
 
-        // TECH-01 already has assignment 09:00 - 11:00. Candidate window 10:00 - 12:00 overlaps from 10:00 to 11:00.
         boolean hasConflict = schedulingService.hasSchedulingConflict(technician, candidateStart, candidateEnd);
         if (!hasConflict) {
             throw new AssertionError(String.format(
@@ -153,12 +151,10 @@ public class ReLoopTestSuite {
         RecoveryJob job = jobRepository.findById("JOB-103")
                 .orElseThrow(() -> new AssertionError("Job JOB-103 not found"));
 
-        // JOB-103 is in READY_FOR_RECOVERY. Attempting direct transition to COMPLETED must be rejected.
         try {
             lifecycleService.transitionJob(job.getId(), WorkflowState.COMPLETED, "Premature completion bypass");
             throw new AssertionError("Invalid lifecycle transition succeeded: READY_FOR_RECOVERY transitioned directly to COMPLETED without undergoing recovery");
         } catch (IllegalStateException expected) {
-            // Valid rejection behavior expected
         }
     }
 
