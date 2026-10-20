@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <base href="./">
+  <title>ReLoop — E-Waste Recovery & Refurbishment Operations Platform</title>
+  <meta name="description" content="Industrial circular electronics refurbishment, component recovery, job prioritization, and technician scheduling platform.">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <!-- Header Navigation -->
+  <header class="header">
+    <div class="brand">
+      <div class="brand-logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+          <path d="M3 3v5h5"/>
+          <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/>
+          <path d="M16 21h5v-5"/>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <h1>ReLoop</h1>
+        <p>Circular Operations</p>
+      </div>
+    </div>
+
+    <nav class="nav-tabs" id="nav-tabs">
+      <button class="nav-tab active" data-view="overview-view">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Overview
+      </button>
+      <button class="nav-tab" data-view="intake-view">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+        Intake & Inspection
+      </button>
+      <button class="nav-tab" data-view="matching-view">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/></svg>
+        Component Matching
+      </button>
+      <button class="nav-tab" data-view="planning-view">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="10" y1="6" x2="21" y2="6"/><line x1="10" y1="12" x2="21" y2="12"/><line x1="10" y1="18" x2="21" y2="18"/><polyline points="3 6 4 7 6 5"/><polyline points="3 12 4 13 6 11"/><polyline points="3 18 4 19 6 17"/></svg>
+        Recovery Planning
+      </button>
+      <button class="nav-tab" data-view="allocation-view">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        Capacity Allocation
+      </button>
+      <button class="nav-tab" data-view="scheduling-view">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Technicians
+      </button>
+      <button class="nav-tab" data-view="history-view">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Audit & Logs
+      </button>
+    </nav>
+
+    <div class="header-actions">
+      <button class="btn btn-secondary btn-sm" id="btn-refresh" title="Refresh state from backend">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+        Refresh
+      </button>
+      <button class="btn btn-danger btn-sm" id="btn-reset" title="Reset scenario data to initial deterministic state">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M3 21v-5h5"/></svg>
+        Reset Baseline
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="main-container">
+    
+    <!-- View 1: Operations Overview -->
+    <section class="view-section active" id="overview-view">
+      <div class="kpi-grid">
+        <div class="kpi-card" style="--card-accent: var(--teal);">
+          <div class="kpi-label">Incoming Devices</div>
+          <div class="kpi-value" id="kpi-incoming-devices">--</div>
+          <div class="kpi-sub">Received & awaiting inspection</div>
+        </div>
+        <div class="kpi-card" style="--card-accent: var(--emerald);">
+          <div class="kpi-label">Available Components</div>
+          <div class="kpi-value" id="kpi-available-components">--</div>
+          <div class="kpi-sub" id="kpi-total-components-sub">From -- total items</div>
+        </div>
+        <div class="kpi-card" style="--card-accent: var(--amber);">
+          <div class="kpi-label">Pending Recovery Jobs</div>
+          <div class="kpi-value" id="kpi-pending-jobs">--</div>
+          <div class="kpi-sub">Ready for prioritization & scheduling</div>
+        </div>
+        <div class="kpi-card" style="--card-accent: var(--indigo);">
+          <div class="kpi-label">Scheduled / In-Flight</div>
+          <div class="kpi-value" id="kpi-scheduled-jobs">--</div>
+          <div class="kpi-sub" id="kpi-completed-jobs-sub">-- completed recoveries</div>
+        </div>
+      </div>
+
+      <div class="grid-2col">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+              Processing Bay Workloads
+            </h2>
+            <button class="btn btn-secondary btn-sm" onclick="navigateTo('allocation-view')">Manage Bays</button>
+          </div>
+          <div id="overview-station-list" class="station-list"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Recent Operational Activity
+            </h2>
+            <button class="btn btn-secondary btn-sm" onclick="navigateTo('history-view')">View All</button>
+          </div>
+          <div id="overview-activity-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- View 2: Intake & Inspection -->
+    <section class="view-section" id="intake-view">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+            Intake Device Registry
+          </h2>
+          <div style="display:flex; gap:0.5rem; align-items:center;">
+            <input type="text" id="intake-search" class="form-input" style="width:220px;" placeholder="Filter devices...">
+            <select id="intake-status-filter" class="form-select" style="width:160px;">
+              <option value="ALL">All States</option>
+              <option value="RECEIVED">Received</option>
+              <option value="INSPECTING">Inspecting</option>
+              <option value="READY_FOR_RECOVERY">Ready for Recovery</option>
+              <option value="COMPLETED">Completed</option>
+            </select>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Device ID</th>
+                <th>Model</th>
+                <th>Category</th>
+                <th>Condition</th>
+                <th>Workflow Status</th>
+                <th>Components Discovered</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="device-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- View 3: Component Matching -->
+    <section class="view-section" id="matching-view">
+      <div class="grid-2col">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/></svg>
+              Outstanding Refurbishment Demands
+            </h2>
+          </div>
+          <div id="requirements-list"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              Compatibility Evaluation Inspector
+            </h2>
+          </div>
+          <div id="matching-inspector-content">
+            <p style="color:var(--text-dim); font-size:0.88rem;">Select an outstanding refurbishment demand to run real compatibility evaluation against recovered inventory.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/></svg>
+            Recovered Component Inventory
+          </h2>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Component ID</th>
+                <th>Type</th>
+                <th>Manufacturer / Family</th>
+                <th>Interface</th>
+                <th>Capacity</th>
+                <th>Grade</th>
+                <th>Status</th>
+                <th>Source Device</th>
+              </tr>
+            </thead>
+            <tbody id="component-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- View 4: Recovery Planning -->
+    <section class="view-section" id="planning-view">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="10" y1="6" x2="21" y2="6"/><line x1="10" y1="12" x2="21" y2="12"/><line x1="10" y1="18" x2="21" y2="18"/></svg>
+              Recovery Job Planning Board
+            </h2>
+            <p style="font-size:0.8rem; color:var(--text-dim); margin-top:0.25rem;">
+              Queue ranking evaluates component demand coverage, recovery value, urgency score, and processing duration.
+            </p>
+          </div>
+          <button class="btn btn-primary" id="btn-run-prioritization">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Run Prioritization Cycle
+          </button>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Job ID</th>
+                <th>Title & Device</th>
+                <th>Urgency</th>
+                <th>Estimated Value</th>
+                <th>Duration</th>
+                <th>Required Skill</th>
+                <th>Priority Score</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="planning-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- View 5: Capacity Allocation -->
+    <section class="view-section" id="allocation-view">
+      <div class="card-header" style="margin-bottom: 1.25rem;">
+        <div>
+          <h2 class="card-title" style="font-size:1.2rem;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/></svg>
+            Processing Station Bays & Capacity
+          </h2>
+          <p style="font-size:0.82rem; color:var(--text-dim);">Allocates recovery jobs to processing bays respecting max capacity and supported operations.</p>
+        </div>
+        <button class="btn btn-primary" id="btn-batch-allocate-all">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+          Batch Allocate Eligible Jobs
+        </button>
+      </div>
+
+      <div class="grid-3col" id="station-cards-grid" style="margin-bottom:1.5rem;"></div>
+
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Jobs Awaiting Bay Allocation</h2>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Job ID</th>
+                <th>Title</th>
+                <th>Required Operation</th>
+                <th>Required Capacity</th>
+                <th>Priority Score</th>
+                <th>Assigned Station</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="unallocated-jobs-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- View 6: Technician Scheduling -->
+    <section class="view-section" id="scheduling-view">
+      <div class="card-header" style="margin-bottom: 1.25rem;">
+        <div>
+          <h2 class="card-title" style="font-size:1.2rem;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/></svg>
+            Technician Scheduling Board
+          </h2>
+          <p style="font-size:0.82rem; color:var(--text-dim);">Schedules certified technicians within availability windows while preventing overlapping conflicts.</p>
+        </div>
+      </div>
+
+      <div class="grid-3col" id="technicians-grid" style="margin-bottom:1.5rem;"></div>
+
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Schedule Job with Technician</h2>
+        </div>
+        <form id="scheduling-form" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) auto; gap:1rem; align-items:flex-end;">
+          <div class="form-group" style="margin:0;">
+            <label class="form-label">Recovery Job</label>
+            <select id="schedule-job-select" class="form-select" required></select>
+          </div>
+          <div class="form-group" style="margin:0;">
+            <label class="form-label">Technician</label>
+            <select id="schedule-tech-select" class="form-select" required></select>
+          </div>
+          <div class="form-group" style="margin:0;">
+            <label class="form-label">Start Time</label>
+            <input type="datetime-local" id="schedule-start-time" class="form-input" required>
+          </div>
+          <button type="submit" class="btn btn-primary" id="btn-submit-schedule">
+            Confirm Assignment
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- View 7: Audit & Logs -->
+    <section class="view-section" id="history-view">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Operational Activity & Lifecycle Audit Trail
+          </h2>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Timestamp</th>
+                <th>Action</th>
+                <th>Entity Type</th>
+                <th>Entity ID</th>
+                <th>Details</th>
+              </tr>
+            </thead>
+            <tbody id="activity-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Inspection Modal -->
+  <div class="modal-overlay" id="inspection-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="card-title" id="inspection-modal-title">Device Intake Inspection</h3>
+        <button class="close-btn" onclick="closeModal('inspection-modal')">&times;</button>
+      </div>
+      <form id="inspection-form">
+        <input type="hidden" id="inspect-device-id">
+        <div class="form-group">
+          <label class="form-label">Physical & Operational Condition</label>
+          <select id="inspect-condition" class="form-select" required>
+            <option value="Mint">Mint — Like new cosmetic and functional state</option>
+            <option value="Good">Good — Minor cosmetic signs, all hardware operational</option>
+            <option value="Fair" selected>Fair — Scuffs / casing wear, hardware recoverable</option>
+            <option value="Poor">Poor — Heavy wear, selective component harvest</option>
+            <option value="Damaged">Damaged — Chassis fracture / partial liquid ingress</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Inspection Notes & Findings</label>
+          <textarea id="inspect-notes" class="form-textarea" rows="3" placeholder="Enter findings from visual, battery, and diagnostic scan..."></textarea>
+        </div>
+        <div style="display:flex; justify-content:flex-end; gap:0.75rem; margin-top:1.25rem;">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('inspection-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="btn-submit-inspection">Complete Inspection</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Allocation Modal -->
+  <div class="modal-overlay" id="allocation-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="card-title" id="allocation-modal-title">Assign Processing Bay</h3>
+        <button class="close-btn" onclick="closeModal('allocation-modal')">&times;</button>
+      </div>
+      <form id="allocation-form">
+        <input type="hidden" id="alloc-job-id">
+        <div class="form-group">
+          <label class="form-label">Select Processing Station</label>
+          <select id="alloc-station-select" class="form-select" required></select>
+        </div>
+        <div id="alloc-station-preview" style="font-size:0.85rem; margin-bottom:1rem; color:var(--text-dim);"></div>
+        <div style="display:flex; justify-content:flex-end; gap:0.75rem;">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('allocation-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="btn-submit-alloc">Allocate Station</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container"></div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
