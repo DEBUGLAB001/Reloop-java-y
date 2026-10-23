@@ -11,5 +11,13 @@
         "type": "preview"
       }
     ]
-  }
+  },
+  "bug_topics": [
+    "Enum Comparison",
+    "Priority Queue",
+    "Capacity Allocation",
+    "Interval Scheduling",
+    "State Machine",
+    "State Consistency"
+  ]
 }
